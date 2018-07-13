@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">NutriLabel</string>
+    <string name="ImageView">Imageview</string>
+
+
+    <string name="result_image_desc">crop result</string>
+    <string name="main_button_select_image">Select Image</string>
+    <string name="main_activity_desciption">Sample activity to start image cropping.\nExample: User profile activity to select avatar.</string>
+
+
+    <string name="energy">Energy</string>
+    <string name="fat">Fat</string>
+    <string name="saturates">Saturates</string>
+    <string name="sugars">Sugars</string>
+
+    <string name="salts">Salt</string>
+    <string name="title_activity_delete_photos">DeletePhotos</string>
+
+
+</resources>
