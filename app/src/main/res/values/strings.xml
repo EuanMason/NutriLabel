@@ -14,7 +14,24 @@
     <string name="sugars">Sugars</string>
 
     <string name="salts">Salt</string>
+    <string name="portion">Portion</string>
     <string name="title_activity_delete_photos">DeletePhotos</string>
+
+    <string-array name="decimalNumbers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="fractionNumbers">
+        <item>0</item>
+        <item>&#188;</item>
+        <item>&#189;</item>
+        <item>&#190;</item>
+    </string-array>
 
 
 </resources>

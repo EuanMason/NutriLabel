@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SATURATES = "saturates";
     private static final String SUGARS = "sugars";
     private static final String SALTS = "salts";
+    private static final String PORTION = "portion";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,9 +41,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NVALUES + "("
-                + DATABASE_NAME + " INTEGER PRIMARY KEY," + DATE + " TEXT,"
-                + ENERGY + " TEXT" + FAT + " TEXT" +SATURATES+ " TEXT"
-                + SUGARS+ " TEXT" + SALTS+ " TEXT" +")";
+                + DATABASE_NAME + " INTEGER PRIMARY KEY,"
+                + DATE + " TEXT,"
+                + ENERGY + " TEXT,"
+                + FAT + " TEXT,"
+                + SATURATES + " TEXT,"
+                + SUGARS + " TEXT,"
+                + SALTS + " TEXT,"
+                + PORTION + " TEXT"
+                    +")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -59,11 +67,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(DATE, label.getDate()); // Shop Name
+        Log.e("DB TEST", "DB date = " + label.getDate());
         values.put(ENERGY, label.getEnergy()); // Shop Name
+        Log.e("DB TEST", "DB energy = " + label.getEnergy());
         values.put(FAT, label.getFat()); // Shop Name
+        Log.e("DB TEST", "DB fat = " + label.getFat());
         values.put(SATURATES, label.getSaturates()); // Shop Name
+        Log.e("DB TEST", "DB saturates = " + label.getSaturates());
         values.put(SUGARS, label.getSugars()); // Shop Name
+        Log.e("DB TEST", "DB sugars = " + label.getSugars());
         values.put(SALTS, label.getSalts()); // Shop Name
+        Log.e("DB TEST", "DB salts = " + label.getSalts());
+        values.put(PORTION, label.getPortion());
+        Log.e("DB TEST", "DB portion = " + label.getPortion());
 
         // Inserting Row
         db.insert(TABLE_NVALUES, null, values);
@@ -75,13 +91,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NVALUES, new String[]{DATE,
-                        ENERGY, FAT, SATURATES,SUGARS,SALTS}, DATE + "=?",
+                        ENERGY, FAT, SATURATES, SUGARS, SALTS, PORTION}, DATE + "=?",
                 new String[]{String.valueOf(date)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         NutritionLabel label = new NutritionLabel(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getString(5));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getString(5), cursor.getDouble(6));
         // return nutlabel
         return label;
     }
@@ -105,6 +121,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 nutlabel.setSaturates(cursor.getString(3));
                 nutlabel.setSugars(cursor.getString(4));
                 nutlabel.setSalts(cursor.getString(5));
+                nutlabel.setPortion(cursor.getDouble(6));
                 // Adding contact to list
                 nutritionLabelList.add(nutlabel);
             } while (cursor.moveToNext());
@@ -135,6 +152,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //        return db.update(TABLE_SHOPS, values, KEY_ID + " = ?",
 //                new String[]{String.valueOf(shop.getId())});
 //    }
+
 
     // Deleting a shop
 //    public void deleteShop(Shop shop) {

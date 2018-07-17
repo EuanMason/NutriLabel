@@ -19,6 +19,7 @@ public class editInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
         Intent intent = getIntent();
+        String date = intent.getStringExtra("date");
         String enerygy = intent.getStringExtra("energy");
         String fat = intent.getStringExtra("fat");
         String saturate = intent.getStringExtra("saturate");

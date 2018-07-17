@@ -12,13 +12,13 @@ public class NutritionLabel {
     private String saturates;
     private String sugars;
     private String salts;
-    private int portion;
+    private Double portion;
 
     public NutritionLabel()
     {
     }
 
-    public NutritionLabel(String date, String energy,String fat, String saturates, String sugars, String salts, int portion)
+    public NutritionLabel(String date, String energy,String fat, String saturates, String sugars, String salts, Double portion)
     {
         this.date=date;
         this.energy=energy;
@@ -78,11 +78,11 @@ public class NutritionLabel {
         this.salts = salts;
     }
 
-    public int getPortion() {
+    public Double getPortion() {
         return portion;
     }
 
-    public void setPortion(int portion) {
+    public void setPortion(Double portion) {
         this.portion = portion;
     }
 

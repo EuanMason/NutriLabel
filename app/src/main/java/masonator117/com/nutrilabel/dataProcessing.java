@@ -1,6 +1,7 @@
 package masonator117.com.nutrilabel;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -10,8 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,15 @@ public class dataProcessing extends AppCompatActivity {
     private static final String TAG = "OCR";
     private TextView textView;
     private NutritionLabel nutritionLabel;
+    private static final  Date date = Calendar.getInstance().getTime();
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+
+    TextView energyOut;
+    TextView fatOut;
+    TextView saturatesOut;
+    TextView sugarOut;
+    TextView saltOut;
+    double portion = 1.0;
 
 
 
@@ -45,11 +58,17 @@ public class dataProcessing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_processing);
 
+        energyOut = findViewById(R.id.energyOutput);
+        fatOut = findViewById(R.id.fatOutput);
+        saturatesOut = findViewById(R.id.saturatesOutput);
+        sugarOut = findViewById(R.id.sugarsOutput);
+        saltOut = findViewById(R.id.saltsOutput);
 
+        textView = findViewById(R.id.testingText);
 
+        spinners();
 
-
-                processImage();
+        processImage();
 
         buttonOnClick();
 
@@ -60,6 +79,7 @@ public class dataProcessing extends AppCompatActivity {
     public void buttonOnClick(){
         Button done= (Button)findViewById(R.id.done);
         Button edit = findViewById(R.id.editData);
+
         //TODO database of correct answers
         done.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -71,25 +91,166 @@ public class dataProcessing extends AppCompatActivity {
 
         edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                TextView energyOut = findViewById(R.id.energyOutput);
-                TextView fatOut = findViewById(R.id.fatOutput);
-                TextView saturatesOut = findViewById(R.id.saturatesOutput);
-                TextView sugarOut = findViewById(R.id.sugarsOutput);
-                TextView saltOut = findViewById(R.id.saltsOutput);
+
 
 
                 Intent intent = new Intent(getApplicationContext(), editInfo.class);
+                Date date = Calendar.getInstance().getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+//                NutritionLabel nlIntent = new NutritionLabel(sdf.format(date), energyOut.getText().toString(), fatOut.getText().toString(),
+//                        saturatesOut.getText().toString(), sugarOut.getText().toString(),saltOut.getText().toString(), portion);
+
+                intent.putExtra("date", sdf.format(date));
                 intent.putExtra("energy", energyOut.getText());
                 intent.putExtra("fat", fatOut.getText());
                 intent.putExtra("saturate", saturatesOut.getText());
                 intent.putExtra("sugar", sugarOut.getText());
                 intent.putExtra("salt", saltOut.getText());
+                intent.putExtra("portion", portion);
+//                intent.putExtra("egrre", nlIntent);
                 startActivity(intent);
             }
         });
 
+//        spinnerDecimal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> arg0, View arg1,
+//                                       int arg2, long arg3) {
+//                    String selected = spinnerDecimal.getSelectedItem().toString();
+//                    portion = Long.parseLong(selected);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//
+//
+//            }
+//        });
+//
+//
 
 
+
+
+//        spinnerDecimal.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v){
+//
+//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dataProcessing.this,
+//                        R.array.decimalNumbers, android.R.layout.simple_spinner_item);
+//// Specify the layout to use when the list of choices appears
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//// Apply the adapter to the spinner
+//                spinnerDecimal.setAdapter(adapter);
+//
+//            }
+//        });
+//
+//        spinnerFraction.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v){
+//
+//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dataProcessing.this,
+//                        R.array.fractionNumbers, android.R.layout.simple_spinner_item);
+//// Specify the layout to use when the list of choices appears
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//// Apply the adapter to the spinner
+//                spinnerFraction.setAdapter(adapter);
+//
+//            }
+//        });
+
+
+    }
+
+    private void spinners(){
+        Log.e("Portion", "Portion spinner start = " + portion);
+
+
+
+
+        final Spinner spinnerDecimal = findViewById(R.id.spinnerDecimal);
+        final Spinner spinnerFraction = findViewById(R.id.spinnerFraction);
+
+
+
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dataProcessing.this,
+                R.array.decimalNumbers, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerDecimal.setAdapter(adapter);
+        spinnerDecimal.setSelection(1);
+
+
+        spinnerDecimal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                String selected = spinnerDecimal.getSelectedItem().toString();
+                portion = updatePortion(Double.parseDouble(selected), "decimal");
+                Log.e("Portion", "Portion decimal change = " + portion);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+
+            }
+        });
+
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(dataProcessing.this,
+                R.array.fractionNumbers, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerFraction.setAdapter(adapter2);
+        spinnerFraction.setSelection(0);
+
+        spinnerFraction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                double[] fractionArray ={0.0, 0.25, 0.5, 0.75};
+
+                int i =spinnerFraction.getSelectedItemPosition();
+
+                portion = updatePortion(fractionArray[i], "fraction");
+                Log.e("Portion", "Portion fraction change = " + portion);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+
+            }
+        });
+
+    }
+
+    private Double updatePortion(Double port, String type){
+        String str=Double.toString(port);
+        String strarray[]=str.split("\\.");
+        String str2=Double.toString(portion);
+        String strarray2[]=str2.split("\\.");
+        if (type.equals("decimal")){
+            Log.e("Decimal", "decimal");
+            return portion = Double.parseDouble(strarray[0] +"."+ strarray2[1]);
+        } else if (type.equals("fraction")) {
+            Log.e("Decimal", "fraction");
+
+            return portion = Double.parseDouble(strarray2[0] +"."+ strarray[1]);
+
+        }
+        return portion;
     }
 
     private void saveCorrectness(){
@@ -97,11 +258,22 @@ public class dataProcessing extends AppCompatActivity {
 
             DatabaseHandler db = new DatabaseHandler(this);
 
-            Date date = Calendar.getInstance().getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            nutritionLabel.setDate(sdf.format(date));
-            db.addNutritionalLabel();
-            db.addNutritionalLabel();
+
+
+            NutritionLabel nl = new NutritionLabel(sdf.format(date), energyOut.getText().toString(), fatOut.getText().toString(),
+                    saturatesOut.getText().toString(), sugarOut.getText().toString(), saltOut.getText().toString(), portion);
+            Log.e("Nutrition Label Outputs", "Date = " + sdf.format(date) + " Energy? =" + nl.getEnergy() + " Fat = "+ nl.getFat() + " Saturates = " + nl.getSaturates()
+                    + " Sugar = " + nl.getSugars() + " Salt " + nl.getSalts() + " Portion = " + portion);
+
+
+            db.addNutritionalLabel(nl);
+
+
+//            Log.e("Database working?", "Count? = " + db.getLabelCount());
+            Log.e("Database working?", "List all? = " + db.getAllNutritionalLabels());
+            Log.e("Database working?", "Get first?? = " + db.getNutritionalLabel("16072018"));
+
+            //            db.addNutritionalLabel();
 //            String output ="";
             //open file for writing
 
@@ -260,11 +432,7 @@ public class dataProcessing extends AppCompatActivity {
                         } else if (!vertical && (j == 0 || j ==1)){
 //                            Log.e("Reverse", "Not reversed horiz");
                             display(outputs.get(i));
-                            nutritionLabel.setEnergy(outputs.get(i).get(0));
-                            nutritionLabel.setFat(outputs.get(i).get(1));
-                            nutritionLabel.setSaturates(outputs.get(i).get(2));
-                            nutritionLabel.setSugars(outputs.get(i).get(3));
-                            nutritionLabel.setSalts(outputs.get(i).get(4));
+
 
                         } else {
 //                            Log.e("Reverse", "Reversed");
@@ -373,6 +541,12 @@ public class dataProcessing extends AppCompatActivity {
         TextView sugars = findViewById(R.id.sugarsOutput);
         TextView salts = findViewById(R.id.saltsOutput);
 
+
+//        nutritionLabel.setEnergy(matcher.get(0));
+//        nutritionLabel.setFat(matcher.get(1));
+//        nutritionLabel.setSaturates(matcher.get(2));
+//        nutritionLabel.setSugars(matcher.get(3));
+//        nutritionLabel.setSalts(matcher.get(4));
 
         enerygy.setText(matcher.get(0));
         fat.setText(matcher.get(1));
