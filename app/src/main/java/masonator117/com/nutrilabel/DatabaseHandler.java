@@ -87,19 +87,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting one shop
-    public NutritionLabel getNutritionalLabel(String date) {
+    public List<NutritionLabel> getNutritionalLabel(String date) {
         SQLiteDatabase db = this.getReadableDatabase();
+        List<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + "=" + date;
 
-        Cursor cursor = db.query(TABLE_NVALUES, new String[]{DATE,
-                        ENERGY, FAT, SATURATES, SUGARS, SALTS, PORTION}, DATE + "=?",
-                new String[]{String.valueOf(date)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        NutritionLabel label = new NutritionLabel(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getString(5), cursor.getDouble(6));
+//        Cursor cursor = db.query(TABLE_NVALUES, new String[]{DATE,
+//                        ENERGY, FAT, SATURATES, SUGARS, SALTS, PORTION}, DATE + "=?",
+//                new String[]{String.valueOf(date)}, null, null, null, null);
+
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    NutritionLabel nutlabel = new NutritionLabel();
+                    nutlabel.setDate(cursor.getString(1));
+                    nutlabel.setEnergy(cursor.getString(2));
+                    nutlabel.setFat(cursor.getString(3));
+                    nutlabel.setSaturates(cursor.getString(4));
+                    nutlabel.setSugars(cursor.getString(5));
+                    nutlabel.setSalts(cursor.getString(6));
+                    nutlabel.setPortion(cursor.getDouble(7));
+                    // Adding contact to list
+                    nutritionLabelList.add(nutlabel);
+                } while (cursor.moveToNext());
+            }
+        }
+
+
+
+
+
+
+//            NutritionLabel label = new NutritionLabel(cursor.getString(0),
+//                    cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getDouble(6));
+
         // return nutlabel
-        return label;
+        return nutritionLabelList;
     }
 
     // Getting All nutlabels
@@ -115,13 +142,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 NutritionLabel nutlabel = new NutritionLabel();
-                nutlabel.setDate(cursor.getString(0));
-                nutlabel.setEnergy(cursor.getString(1));
-                nutlabel.setFat(cursor.getString(2));
-                nutlabel.setSaturates(cursor.getString(3));
-                nutlabel.setSugars(cursor.getString(4));
-                nutlabel.setSalts(cursor.getString(5));
-                nutlabel.setPortion(cursor.getDouble(6));
+                nutlabel.setDate(cursor.getString(1));
+                nutlabel.setEnergy(cursor.getString(2));
+                nutlabel.setFat(cursor.getString(3));
+                nutlabel.setSaturates(cursor.getString(4));
+                nutlabel.setSugars(cursor.getString(5));
+                nutlabel.setSalts(cursor.getString(6));
+                nutlabel.setPortion(cursor.getDouble(7));
                 // Adding contact to list
                 nutritionLabelList.add(nutlabel);
             } while (cursor.moveToNext());

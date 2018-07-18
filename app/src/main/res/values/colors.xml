@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="color_arc">#ffffff</color>
+    <color name="color_arc_border">#000000</color>
+    <color name="color_progress">#00ccff</color>
+    <color name="color_indicator">#FF007491</color>
+    <color name="color_text">#000000</color>
+
 </resources>

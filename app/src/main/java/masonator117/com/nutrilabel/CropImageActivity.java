@@ -66,9 +66,12 @@ public class CropImageActivity extends AppCompatActivity {
 
 
 
+        try {
+            CropImage.activity(uri)
+                    .start(this);
+        } catch (NullPointerException e){
 
-        CropImage.activity(uri)
-                .start(this);
+        }
 //        CropImage.activity(uri)
 //                .setGuidelines(CropImageView.Guidelines.ON)
 //                .setActivityTitle("My Crop")

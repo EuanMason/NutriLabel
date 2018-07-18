@@ -1,7 +1,6 @@
 package masonator117.com.nutrilabel;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,8 +80,31 @@ public class dataProcessing extends AppCompatActivity {
         //TODO database of correct answers
         done.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                saveCorrectness();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                if (checkForNaN()){
+                    //TODO why this no work
+                    Intent intent = new Intent(getApplicationContext(), editInfo.class);
+                    Date date = Calendar.getInstance().getTime();
+                    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+//                NutritionLabel nlIntent = new NutritionLabel(sdf.format(date), energyOut.getText().toString(), fatOut.getText().toString(),
+//                        saturatesOut.getText().toString(), sugarOut.getText().toString(),saltOut.getText().toString(), portion);
+
+                    intent.putExtra("date", sdf.format(date));
+                    intent.putExtra("energy", energyOut.getText());
+                    intent.putExtra("fat", fatOut.getText());
+                    intent.putExtra("saturate", saturatesOut.getText());
+                    intent.putExtra("sugar", sugarOut.getText());
+                    intent.putExtra("salt", saltOut.getText());
+                    intent.putExtra("portion", portion);
+//                intent.putExtra("egrre", nlIntent);
+//                    Toast.makeText(this, "Some values have not been read in properly", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                    return;
+                } else {
+
+
+                    saveToDatabase();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
         });
 
@@ -253,8 +273,9 @@ public class dataProcessing extends AppCompatActivity {
         return portion;
     }
 
-    private void saveCorrectness(){
+    private void saveToDatabase(){
         try {
+
 
             DatabaseHandler db = new DatabaseHandler(this);
 
@@ -330,6 +351,27 @@ public class dataProcessing extends AppCompatActivity {
             //if caught
             Toast.makeText(this, "Text Could not be added",Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    private boolean checkForNaN(){
+
+        Log.e("Changing NaN", "Changing NaN");
+
+        String[] checkNan = {energyOut.getText().toString(),fatOut.getText().toString(),saturatesOut.getText().toString(),
+                sugarOut.getText().toString(),saltOut.getText().toString()};
+
+        for (int i=0; i< checkNan.length;i++){
+            if (checkNan[i]== "NaN"){
+                Log.e("DataIntoProgress", "Found NaN");
+                return true;
+
+            }
+        }
+
+
+    return false;
+
     }
 
 
