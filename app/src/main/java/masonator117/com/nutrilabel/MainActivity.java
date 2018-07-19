@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.brkckr.circularprogressbar.CircularProgressBar;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private static final Date date = Calendar.getInstance().getTime();
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
     private TextView energyView;
     private TextView fatView;
     private TextView saturatesView;
     private TextView sugarView;
     private TextView saltsView;
+    String TAG = "MainActivityDebug";
 
 
 
@@ -62,6 +65,33 @@ public class MainActivity extends AppCompatActivity {
         dataIntoProgress();
 //        startActivity(new Intent(getApplicationContext(), Main2Activity.class) );
         buttonOnClick();
+        final Intent timeline = new Intent(this, Timeline.class);
+
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        if (menuItem.getItemId() == R.id.nav_home){
+//            mDrawerLayout.openDrawer(GravityCompat.START);
+
+                        } else if (menuItem.getItemId() == R.id.nav_timeline) {
+                            startActivity(timeline);
+                        }
+
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
 
     }
 
@@ -132,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler db = new DatabaseHandler(this);
 
         String sdate = sdf.format(date);
-        List<NutritionLabel> nl = db.getNutritionalLabel(sdate);
+        Log.d(TAG, "dataIntoProgress: " + db.getNutritionalLabel(sdate));
+        ArrayList<NutritionLabel> nl = db.getNutritionalLabel(sdate);
+        Log.d(TAG, "Sdate = (" + sdate + "). nutrition date = (" + db.getAllNutritionalLabels().get(0).getDate() + ") DB size = " +  db.getNutritionalLabel(sdate).size());
         int energy =0;
         int fat =0;
         int saturates=0;
@@ -144,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 //            Log.e("DataIntoProgress", "Energy = "+nl.get(i).getEnergy());
             //TODO multiple by portion
             portion=nl.get(i).getPortion();
+            Log.d(TAG, "Portion = " + portion);
 //            Log.e("Portion times", String.valueOf(Double.parseDouble(nl.get(i).getEnergy().replaceAll("%", ""))));
 //            Log.e("Portion times", String.valueOf((int)Math.round(Double.parseDouble(nl.get(i).getEnergy().replaceAll("%", ""))*portion)));
             energy = energy +(int)Math.round(Double.parseDouble(nl.get(i).getEnergy().replaceAll("%", ""))*portion);

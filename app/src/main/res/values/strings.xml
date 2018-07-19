@@ -32,6 +32,13 @@
         <item>&#189;</item>
         <item>&#190;</item>
     </string-array>
+
+    <string-array name="calendarView">
+        <item>Day View</item>
+        <item>Week View</item>
+        <item>Month View</item>
+    </string-array>
+    
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

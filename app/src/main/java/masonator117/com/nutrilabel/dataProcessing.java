@@ -84,7 +84,7 @@ public class dataProcessing extends AppCompatActivity {
                     //TODO why this no work
                     Intent intent = new Intent(getApplicationContext(), editInfo.class);
                     Date date = Calendar.getInstance().getTime();
-                    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+                    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 //                NutritionLabel nlIntent = new NutritionLabel(sdf.format(date), energyOut.getText().toString(), fatOut.getText().toString(),
 //                        saturatesOut.getText().toString(), sugarOut.getText().toString(),saltOut.getText().toString(), portion);
 

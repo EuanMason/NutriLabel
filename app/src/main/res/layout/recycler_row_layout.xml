@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_Layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+
+    <RelativeLayout
+        android:id="@+id/progressBars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/fatPercent"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/energyProgressBar"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0%" />
+
+        <TextView
+            android:id="@+id/saturatesPercent"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/fatProgressBar"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0%" />
+
+        <TextView
+            android:id="@+id/sugarPercent"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/saturatesProgressBar"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0%" />
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/saltProgressBar"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/sugarProgressBar"
+
+            ProgressWheel:cpbBackgroundColor="#F1992D"
+            ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
+            ProgressWheel:cpbProgressColor="#9F3238"
+            ProgressWheel:cpbProgressWidth="@dimen/progress_width"
+            ProgressWheel:cpbState="clockwise" />
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/energyProgressBar"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:cpbBackgroundColor="#F1992D"
+
+            app:cpbBackgroundWidth="@dimen/background_width"
+            app:cpbProgressColor="#9F3238"
+            app:cpbProgressWidth="@dimen/progress_width"
+            app:cpbState="clockwise" />
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/fatProgressBar"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+
+            android:layout_toRightOf="@+id/energyProgressBar"
+            ProgressWheel:cpbBackgroundColor="#F1992D"
+            ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
+            ProgressWheel:cpbProgressColor="#9F3238"
+            ProgressWheel:cpbProgressWidth="@dimen/progress_width"
+            ProgressWheel:cpbState="clockwise" />
+
+        <TextView
+            android:id="@+id/saltPercent"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/sugarProgressBar"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0%" />
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/sugarProgressBar"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/saturatesProgressBar"
+
+            ProgressWheel:cpbBackgroundColor="#F1992D"
+            ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
+            ProgressWheel:cpbProgressColor="#9F3238"
+            ProgressWheel:cpbProgressWidth="@dimen/progress_width"
+            ProgressWheel:cpbState="clockwise" />
+
+        <TextView
+            android:id="@+id/energyPercent"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0%" />
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/saturatesProgressBar"
+            android:layout_width="@dimen/progressSmall"
+            android:layout_height="@dimen/progressSmall"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/fatProgressBar"
+
+            ProgressWheel:cpbBackgroundColor="#F1992D"
+            ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
+            ProgressWheel:cpbProgressColor="#9F3238"
+            ProgressWheel:cpbProgressWidth="@dimen/progress_width"
+            ProgressWheel:cpbState="clockwise" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/progressText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBars"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/timelineenergyText"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Energy" />
+
+        <TextView
+            android:id="@+id/timelinefatText"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/timelineenergyText"
+            android:gravity="center_horizontal"
+            android:text="Fat" />
+
+        <TextView
+            android:id="@+id/timelinesaturatesText"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/timelinefatText"
+            android:gravity="center_horizontal"
+            android:text="Saturates" />
+
+        <TextView
+            android:id="@+id/timelinesugarText"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/timelinesaltText"
+            android:gravity="center_horizontal"
+            android:text="Sugars" />
+
+        <TextView
+            android:id="@+id/timelinesaltText"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Salts" />
+
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/progressText" />
+
+</RelativeLayout>

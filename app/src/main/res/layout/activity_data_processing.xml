@@ -28,7 +28,7 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/energyText"
+                android:id="@+id/timelineenergyText"
                 android:layout_width="245dp"
                 android:layout_height="wrap_content"
                 android:text="@string/energy"
@@ -56,7 +56,7 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/fatText"
+                android:id="@+id/timelinefatText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fat"

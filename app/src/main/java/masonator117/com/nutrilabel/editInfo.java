@@ -24,7 +24,7 @@ public class editInfo extends AppCompatActivity {
 
     double portion;
     private static final Date date = Calendar.getInstance().getTime();
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
     TextView enerygyEdit;
     TextView fatEdit;
     TextView saturatesEdit;

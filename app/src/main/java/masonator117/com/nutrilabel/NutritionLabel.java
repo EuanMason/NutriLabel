@@ -1,5 +1,8 @@
 package masonator117.com.nutrilabel;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 /**
  * Created by Euan on 13/07/2018.
  */
@@ -84,6 +87,66 @@ public class NutritionLabel {
 
     public void setPortion(Double portion) {
         this.portion = portion;
+    }
+
+    public NutritionLabel asOnePortion(NutritionLabel nl){
+        Double portion = nl.getPortion();
+        int energy =(int)Math.round(Double.parseDouble(nl.getEnergy().replaceAll("%", ""))*portion);
+        int fat =(int)Math.round(Double.parseDouble(nl.getFat().replaceAll("%", ""))*portion);
+        int saturates =(int)Math.round(Double.parseDouble(nl.getSaturates().replaceAll("%", ""))*portion);
+        int sugars =(int)Math.round(Double.parseDouble(nl.getSugars().replaceAll("%", ""))*portion);
+        int salts =(int)Math.round(Double.parseDouble(nl.getSalts().replaceAll("%", ""))*portion);
+
+        nl.setPortion(1.0);
+        nl.setEnergy(String.valueOf(energy) + "%");
+        nl.setFat(String.valueOf(fat) + "%");
+        nl.setSaturates(String.valueOf(saturates) + "%");
+        nl.setSugars(String.valueOf(sugars) + "%");
+        nl.setSalts(String.valueOf(salts) + "%");
+
+        return nl;
+
+    }
+
+    public NutritionLabel getTotal(ArrayList<NutritionLabel> nlloop){
+
+        NutritionLabel nl;
+
+        int en=0;
+        int fat=0;
+        int sat=0;
+        int sug=0;
+        int salt=0;
+
+        if (nlloop.size()>0) {
+            nl = nlloop.get(0);
+
+
+            for (int i = 0; i < nlloop.size(); i++) {
+                nl = asOnePortion(nlloop.get(i));
+
+
+                en = en + Integer.parseInt(nl.getEnergy().replaceAll("%", ""));
+                fat = fat + Integer.parseInt(nl.getFat().replaceAll("%", ""));
+                sat = sat + Integer.parseInt(nl.getSaturates().replaceAll("%", ""));
+                sug = sug + Integer.parseInt(nl.getSugars().replaceAll("%", ""));
+                salt = salt + Integer.parseInt(nl.getSalts().replaceAll("%", ""));
+
+
+            }
+
+            nl.setPortion(1.0);
+            nl.setEnergy(String.valueOf(en) + "%");
+            nl.setFat(String.valueOf(fat) + "%");
+            nl.setSaturates(String.valueOf(sat) + "%");
+            nl.setSugars(String.valueOf(sug) + "%");
+            nl.setSalts(String.valueOf(salt) + "%");
+            return nl;
+        }
+
+        return null;
+
+
     }
 
 

@@ -87,11 +87,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting one shop
-    public List<NutritionLabel> getNutritionalLabel(String date) {
+    public ArrayList<NutritionLabel> getNutritionalLabel(String date) {
+//        Double port=1.0;
         SQLiteDatabase db = this.getReadableDatabase();
-        List<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + "=" + date;
+//        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + "=" + date;
+        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + " = " + date;
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -101,8 +103,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         if (cursor != null) {
+
             if (cursor.moveToFirst()) {
                 do {
+                    Log.d("MainActivityDebug", " Cursor move to first");
                     NutritionLabel nutlabel = new NutritionLabel();
                     nutlabel.setDate(cursor.getString(1));
                     nutlabel.setEnergy(cursor.getString(2));
@@ -115,9 +119,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     nutritionLabelList.add(nutlabel);
                 } while (cursor.moveToNext());
             }
+        } else {
+            Log.d("MainActivityDebug", " Cursor null");
+
         }
 
-
+        cursor.close();
 
 
 
@@ -130,8 +137,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting All nutlabels
-    public List<NutritionLabel> getAllNutritionalLabels() {
-        List<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+    public ArrayList<NutritionLabel> getAllNutritionalLabels() {
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NVALUES;
 
@@ -165,6 +172,56 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // return count
         return cursor.getCount();
+    }
+
+    public ArrayList<NutritionLabel> getDay(String i){
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+
+        String monthQuery = "SELECT * FROM " + TABLE_NVALUES +" WHERE " + "strfttime('%d',"+ DATE +") = '"+i+"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(monthQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                NutritionLabel nutlabel = new NutritionLabel();
+                nutlabel.setDate(cursor.getString(1));
+                nutlabel.setEnergy(cursor.getString(2));
+                nutlabel.setFat(cursor.getString(3));
+                nutlabel.setSaturates(cursor.getString(4));
+                nutlabel.setSugars(cursor.getString(5));
+                nutlabel.setSalts(cursor.getString(6));
+                nutlabel.setPortion(cursor.getDouble(7));
+                // Adding contact to list
+                nutritionLabelList.add(nutlabel);
+            } while (cursor.moveToNext());
+        }
+
+        return nutritionLabelList;
+    }
+
+    public ArrayList<NutritionLabel> getMonth(int i){
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+
+        String monthQuery = "SELECT * FROM " + TABLE_NVALUES +" WHERE " + "strftime('%m',"+ DATE+ ") = '"+i+"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(monthQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                NutritionLabel nutlabel = new NutritionLabel();
+                nutlabel.setDate(cursor.getString(1));
+                nutlabel.setEnergy(cursor.getString(2));
+                nutlabel.setFat(cursor.getString(3));
+                nutlabel.setSaturates(cursor.getString(4));
+                nutlabel.setSugars(cursor.getString(5));
+                nutlabel.setSalts(cursor.getString(6));
+                nutlabel.setPortion(cursor.getDouble(7));
+                // Adding contact to list
+                nutritionLabelList.add(nutlabel);
+            } while (cursor.moveToNext());
+        }
+
+        return nutritionLabelList;
     }
 
 
