@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Euan on 13/07/2018.
@@ -93,7 +96,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
         // Select All Query
 //        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + "=" + date;
-        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + " = " + date;
+        String selectQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + DATE + " = '" + date + "'";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -199,10 +202,48 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return nutritionLabelList;
     }
 
-    public ArrayList<NutritionLabel> getMonth(int i){
+    public ArrayList<NutritionLabel> getWeek(int i){
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int iYear = calendar.get(Calendar.YEAR);
+
         ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
 
-        String monthQuery = "SELECT * FROM " + TABLE_NVALUES +" WHERE " + "strftime('%m',"+ DATE+ ") = '"+i+"'";
+        String weekQuery;
+        if (i<10) {
+            weekQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + "strftime('%Y-%W'," + DATE + ") = '" + iYear + "-0" + i + "'";
+        } else {
+            weekQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + "strftime('%Y-%W'," + DATE + ") = '" + iYear + "-" + i + "'";
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(weekQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                NutritionLabel nutlabel = new NutritionLabel();
+                nutlabel.setDate(cursor.getString(1));
+                nutlabel.setEnergy(cursor.getString(2));
+                nutlabel.setFat(cursor.getString(3));
+                nutlabel.setSaturates(cursor.getString(4));
+                nutlabel.setSugars(cursor.getString(5));
+                nutlabel.setSalts(cursor.getString(6));
+                nutlabel.setPortion(cursor.getDouble(7));
+                // Adding contact to list
+                nutritionLabelList.add(nutlabel);
+            } while (cursor.moveToNext());
+        }
+
+        return nutritionLabelList;
+    }
+
+    public ArrayList<NutritionLabel> getMonth(int i){
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        String monthQuery;
+        if (i <10){
+             monthQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + "strftime('%m'," + DATE + ") = '0" + i + "'";
+        } else {
+             monthQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + "strftime('%m'," + DATE + ") = '" + i + "'";
+        }
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(monthQuery, null);
 

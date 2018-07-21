@@ -13,18 +13,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brkckr.circularprogressbar.CircularProgressBar;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
+
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
                         if (menuItem.getItemId() == R.id.nav_home){
 //            mDrawerLayout.openDrawer(GravityCompat.START);
 
@@ -164,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         String sdate = sdf.format(date);
         Log.d(TAG, "dataIntoProgress: " + db.getNutritionalLabel(sdate));
         ArrayList<NutritionLabel> nl = db.getNutritionalLabel(sdate);
-        Log.d(TAG, "Sdate = (" + sdate + "). nutrition date = (" + db.getAllNutritionalLabels().get(0).getDate() + ") DB size = " +  db.getNutritionalLabel(sdate).size());
+        Log.d(TAG, "Sdate = (" + sdate + "). nutrition date = " + db.getAllNutritionalLabels().get(0).getDate() + "DB size = " +  db.getNutritionalLabel(sdate).size());
         int energy =0;
         int fat =0;
         int saturates=0;
@@ -195,11 +192,11 @@ public class MainActivity extends AppCompatActivity {
         sugarView.setText(String.valueOf(sugars + "%"));
         saltsView.setText(String.valueOf(salts + "%"));
 
-        CircularProgressBar cpbEnergy = findViewById(R.id.energyProgressBar);
-        CircularProgressBar cpbFat = findViewById(R.id.fatProgressBar);
-        CircularProgressBar cpbSaturates = findViewById(R.id.saturatesProgressBar);
+        CircularProgressBar cpbEnergy = findViewById(R.id.energyProgressBarRecycler);
+        CircularProgressBar cpbFat = findViewById(R.id.fatProgressBarRecycler);
+        CircularProgressBar cpbSaturates = findViewById(R.id.saturatesProgressBarRecycler);
         CircularProgressBar cpbSugars = findViewById(R.id.sugarsProgressBar);
-        CircularProgressBar cpbSalts = findViewById(R.id.saltProgressBar);
+        CircularProgressBar cpbSalts = findViewById(R.id.saltProgressBarRecycler);
 
 
 

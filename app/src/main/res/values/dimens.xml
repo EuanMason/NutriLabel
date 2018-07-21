@@ -7,4 +7,5 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="progress">96dp</dimen>
     <dimen name="progressSmall">48dp</dimen>
+    <dimen name="progressSmallWidth">6dp</dimen>
 </resources>

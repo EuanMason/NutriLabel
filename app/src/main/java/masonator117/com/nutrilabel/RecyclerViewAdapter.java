@@ -1,7 +1,7 @@
 package masonator117.com.nutrilabel;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.brkckr.circularprogressbar.CircularProgressBar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Euan on 19/07/2018.
@@ -44,9 +42,63 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
-
+        NutritionLabel nlS = nl.get(position);
         Log.d(TAG, "Item count = " + getItemCount());
+
+        holder.energyProgBar.setProgressValue(Float.parseFloat(nlS.getEnergy().replaceAll("%", "")));
+        holder.energyPercent.setText(nlS.getEnergy());
+
+        holder.fatProgBar.setProgressValue(Float.parseFloat(nlS.getFat().replaceAll("%", "")));
+        holder.fatPercent.setText(nlS.getFat());
+
+
+        holder.saturatesProgBar.setProgressValue(Float.parseFloat(nlS.getSaturates().replaceAll("%", "")));
+        holder.saturatesPercent.setText(nlS.getSaturates());
+
+
+        holder.sugarProgBar.setProgressValue(Float.parseFloat(nlS.getSugars().replaceAll("%", "")));
+        holder.sugarPercent.setText(nlS.getSugars());
+
+
+        holder.saltProgBar.setProgressValue(Float.parseFloat(nlS.getSalts().replaceAll("%", "")));
+        holder.saltPercent.setText(nlS.getSalts());
+
+
+
+        colourProgBars(holder);
+
 //        holder.sugarProgBar.setProgressValue(50);
+    }
+
+    private void colourProgBars(ViewHolder holder){
+        CircularProgressBar cpbEnergy = holder.energyProgBar;
+        CircularProgressBar cpbFat = holder.fatProgBar;
+        CircularProgressBar cpbSaturates = holder.saturatesProgBar;
+        CircularProgressBar cpbSugars = holder.sugarProgBar;
+        CircularProgressBar cpbSalts = holder.saltProgBar;
+
+
+
+        CircularProgressBar[] circulararray = {cpbEnergy, cpbFat, cpbSaturates, cpbSugars, cpbSalts};
+        for (int i=0;i<circulararray.length;i++){
+            Log.e("ColourArray", "ColourArray length = " + circulararray.length);
+            Log.e("Progress value", "Progress array length = " + circulararray.length + " i = " + i + " really?" + cpbSugars.getProgressValue());
+            if (circulararray[i].getProgressValue() < 50){
+//                Log.e("ColourArray", "ColourArray = " + circulararray[i].getProgressValue());
+
+                circulararray[i].setProgressColor(Color.parseColor("#00e500"));
+            } else if (circulararray[i].getProgressValue() < 100 ){
+                circulararray[i].setProgressColor(Color.parseColor("#ffa500"));
+            } else if (circulararray[i].getProgressValue() >= 100){
+                Log.e("ProgressValue", "Progress value");
+//                Toast.makeText(this, "You're over your daily limit for nutrition type", Toast.LENGTH_LONG).show();
+                circulararray[i].setProgressColor(Color.parseColor("#e50000"));
+            } else {
+
+            }
+            Log.e("ProgressValue", "Progress value = " + circulararray[i].getProgressValue());
+
+        }
     }
 
     @Override
@@ -82,17 +134,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            energyProgBar = itemView.findViewById(R.id.energyProgressBar);
-            fatProgBar = itemView.findViewById(R.id.fatProgressBar);
-            saturatesProgBar = itemView.findViewById(R.id.saturatesProgressBar);
-            sugarProgBar = itemView.findViewById(R.id.sugarsProgressBar);
-            saltProgBar = itemView.findViewById(R.id.saltProgressBar);
+            energyProgBar = itemView.findViewById(R.id.energyProgressBarRecycler);
+            fatProgBar = itemView.findViewById(R.id.fatProgressBarRecycler);
+            saturatesProgBar = itemView.findViewById(R.id.saturatesProgressBarRecycler);
+            sugarProgBar = itemView.findViewById(R.id.sugarProgressBarRecycler);
+            saltProgBar = itemView.findViewById(R.id.saltProgressBarRecycler);
 
-            energyPercent = itemView.findViewById(R.id.energyPercent);
-            fatPercent = itemView.findViewById(R.id.fatPercent);
-            saturatesPercent = itemView.findViewById(R.id.saturatesPercent);
-            sugarPercent = itemView.findViewById(R.id.sugarPercent);
-            saltPercent = itemView.findViewById(R.id.saltPercent);
+            energyPercent = itemView.findViewById(R.id.energyPercentRecycler);
+            fatPercent = itemView.findViewById(R.id.fatPercentRecycler);
+            saturatesPercent = itemView.findViewById(R.id.saturatesPercentRecycler);
+            sugarPercent = itemView.findViewById(R.id.sugarPercentRecycler);
+            saltPercent = itemView.findViewById(R.id.saltPercentRecycler);
 
             timelineEnergy = itemView.findViewById(R.id.timelineenergyText);
             timelineFat = itemView.findViewById(R.id.timelinefatText);

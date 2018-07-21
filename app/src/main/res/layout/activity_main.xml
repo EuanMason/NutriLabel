@@ -79,7 +79,7 @@
             android:gravity="center_vertical|center_horizontal">
 
             <com.brkckr.circularprogressbar.CircularProgressBar
-                android:id="@+id/energyProgressBar"
+                android:id="@+id/energyProgressBarRecycler"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
                 android:layout_centerHorizontal="true"
@@ -94,18 +94,18 @@
                 android:id="@+id/energyPercent"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
-                android:layout_above="@+id/fatProgressBar"
-                android:layout_alignStart="@+id/energyProgressBar"
+                android:layout_above="@+id/fatProgressBarRecycler"
+                android:layout_alignStart="@+id/energyProgressBarRecycler"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="0%" />
 
             <com.brkckr.circularprogressbar.CircularProgressBar
-                android:id="@+id/fatProgressBar"
+                android:id="@+id/fatProgressBarRecycler"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
 
-                android:layout_alignStart="@+id/energyProgressBar"
-                android:layout_below="@+id/energyProgressBar"
+                android:layout_alignStart="@+id/energyProgressBarRecycler"
+                android:layout_below="@+id/energyProgressBarRecycler"
                 ProgressWheel:cpbBackgroundColor="#F1992D"
                 ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
                 ProgressWheel:cpbProgressColor="#9F3238"
@@ -116,18 +116,18 @@
                 android:id="@+id/fatPercent"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
-                android:layout_above="@+id/saturatesProgressBar"
-                android:layout_alignStart="@+id/fatProgressBar"
+                android:layout_above="@+id/saturatesProgressBarRecycler"
+                android:layout_alignStart="@+id/fatProgressBarRecycler"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="0%" />
 
             <com.brkckr.circularprogressbar.CircularProgressBar
-                android:id="@+id/saturatesProgressBar"
+                android:id="@+id/saturatesProgressBarRecycler"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
 
-                android:layout_alignStart="@+id/fatProgressBar"
-                android:layout_below="@+id/fatProgressBar"
+                android:layout_alignStart="@+id/fatProgressBarRecycler"
+                android:layout_below="@+id/fatProgressBarRecycler"
                 ProgressWheel:cpbBackgroundColor="#F1992D"
                 ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
                 ProgressWheel:cpbProgressColor="#9F3238"
@@ -139,7 +139,7 @@
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
                 android:layout_above="@+id/sugarsProgressBar"
-                android:layout_alignStart="@+id/saturatesProgressBar"
+                android:layout_alignStart="@+id/saturatesProgressBarRecycler"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="0%" />
 
@@ -148,8 +148,8 @@
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
 
-                android:layout_alignStart="@+id/saturatesProgressBar"
-                android:layout_below="@+id/saturatesProgressBar"
+                android:layout_alignStart="@+id/saturatesProgressBarRecycler"
+                android:layout_below="@+id/saturatesProgressBarRecycler"
                 ProgressWheel:cpbBackgroundColor="#F1992D"
                 ProgressWheel:cpbBackgroundWidth="@dimen/background_width"
                 ProgressWheel:cpbProgressColor="#9F3238"
@@ -160,13 +160,13 @@
                 android:id="@+id/sugarsPercent"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
-                android:layout_above="@+id/saltProgressBar"
+                android:layout_above="@+id/saltProgressBarRecycler"
                 android:layout_alignStart="@+id/sugarsProgressBar"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="0%" />
 
             <com.brkckr.circularprogressbar.CircularProgressBar
-                android:id="@+id/saltProgressBar"
+                android:id="@+id/saltProgressBarRecycler"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
 
@@ -183,7 +183,7 @@
                 android:id="@+id/saltPercent"
                 android:layout_width="@dimen/progress"
                 android:layout_height="@dimen/progress"
-                android:layout_alignStart="@+id/saltProgressBar"
+                android:layout_alignStart="@+id/saltProgressBarRecycler"
                 android:layout_below="@+id/sugarsProgressBar"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="0%" />
