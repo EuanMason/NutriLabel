@@ -27,7 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Contacts table name
     private static final String TABLE_NVALUES = "nvalues";
 
-    // Shops Table Columns names
+    // Labels Table Columns names
 
     private static final String DATE = "date";
     private static final String ENERGY = "energy";
@@ -64,22 +64,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Adding new shop
+    // Adding new Label
     public void addNutritionalLabel(NutritionLabel label) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DATE, label.getDate()); // Shop Name
+        values.put(DATE, label.getDate()); // Label Name
         Log.e("DB TEST", "DB date = " + label.getDate());
-        values.put(ENERGY, label.getEnergy()); // Shop Name
+        values.put(ENERGY, label.getEnergy()); // Label Name
         Log.e("DB TEST", "DB energy = " + label.getEnergy());
-        values.put(FAT, label.getFat()); // Shop Name
+        values.put(FAT, label.getFat()); // Label Name
         Log.e("DB TEST", "DB fat = " + label.getFat());
-        values.put(SATURATES, label.getSaturates()); // Shop Name
+        values.put(SATURATES, label.getSaturates()); // Label Name
         Log.e("DB TEST", "DB saturates = " + label.getSaturates());
-        values.put(SUGARS, label.getSugars()); // Shop Name
+        values.put(SUGARS, label.getSugars()); // Label Name
         Log.e("DB TEST", "DB sugars = " + label.getSugars());
-        values.put(SALTS, label.getSalts()); // Shop Name
+        values.put(SALTS, label.getSalts()); // Label Name
         Log.e("DB TEST", "DB salts = " + label.getSalts());
         values.put(PORTION, label.getPortion());
         Log.e("DB TEST", "DB portion = " + label.getPortion());
@@ -89,7 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // Getting one shop
+    // Getting one Label
     public ArrayList<NutritionLabel> getNutritionalLabel(String date) {
 //        Double port=1.0;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -141,7 +141,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting All nutlabels
     public ArrayList<NutritionLabel> getAllNutritionalLabels() {
-        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NVALUES;
 
@@ -159,7 +159,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 nutlabel.setSugars(cursor.getString(5));
                 nutlabel.setSalts(cursor.getString(6));
                 nutlabel.setPortion(cursor.getDouble(7));
-                // Adding contact to list
+                // Adding label to list
                 nutritionLabelList.add(nutlabel);
             } while (cursor.moveToNext());
         }
@@ -177,36 +177,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public ArrayList<NutritionLabel> getDay(String i){
-        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
-
-        String monthQuery = "SELECT * FROM " + TABLE_NVALUES +" WHERE " + "strfttime('%d',"+ DATE +") = '"+i+"'";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(monthQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                NutritionLabel nutlabel = new NutritionLabel();
-                nutlabel.setDate(cursor.getString(1));
-                nutlabel.setEnergy(cursor.getString(2));
-                nutlabel.setFat(cursor.getString(3));
-                nutlabel.setSaturates(cursor.getString(4));
-                nutlabel.setSugars(cursor.getString(5));
-                nutlabel.setSalts(cursor.getString(6));
-                nutlabel.setPortion(cursor.getDouble(7));
-                // Adding contact to list
-                nutritionLabelList.add(nutlabel);
-            } while (cursor.moveToNext());
-        }
-
-        return nutritionLabelList;
-    }
+//    public ArrayList<NutritionLabel> getDay(String i){
+//        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<>();
+//
+//        String monthQuery = "SELECT * FROM " + TABLE_NVALUES +" WHERE " + "strfttime('%d',"+ DATE +") = '"+i+"'";
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(monthQuery, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                NutritionLabel nutlabel = new NutritionLabel();
+//                nutlabel.setDate(cursor.getString(1));
+//                nutlabel.setEnergy(cursor.getString(2));
+//                nutlabel.setFat(cursor.getString(3));
+//                nutlabel.setSaturates(cursor.getString(4));
+//                nutlabel.setSugars(cursor.getString(5));
+//                nutlabel.setSalts(cursor.getString(6));
+//                nutlabel.setPortion(cursor.getDouble(7));
+//                // Adding contact to list
+//                nutritionLabelList.add(nutlabel);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        return nutritionLabelList;
+//    }
 
     public ArrayList<NutritionLabel> getWeek(int i){
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int iYear = calendar.get(Calendar.YEAR);
 
-        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<>();
 
         String weekQuery;
         if (i<10) {
@@ -237,7 +237,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<NutritionLabel> getMonth(int i){
-        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<NutritionLabel>();
+        ArrayList<NutritionLabel> nutritionLabelList = new ArrayList<>();
         String monthQuery;
         if (i <10){
              monthQuery = "SELECT * FROM " + TABLE_NVALUES + " WHERE " + "strftime('%m'," + DATE + ") = '0" + i + "'";
@@ -264,27 +264,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return nutritionLabelList;
     }
-
-
-//    public int updateShop(Shop shop) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_NAME, shop.getName());
-//        values.put(KEY_SH_ADDR, shop.getAddress());
-//
-//        // updating row
-//        return db.update(TABLE_SHOPS, values, KEY_ID + " = ?",
-//                new String[]{String.valueOf(shop.getId())});
-//    }
-
-
-    // Deleting a shop
-//    public void deleteShop(Shop shop) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_SHOPS, KEY_ID + " = ?",
-//                new String[] { String.valueOf(shop.getId()) });
-//        db.close();
-//    }
 
 }

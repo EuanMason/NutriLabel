@@ -107,12 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonOnClick(){
         Button button= (Button)findViewById(R.id.toPicture);
+        Button addLabel= (Button)findViewById(R.id.addLabel);
 //        Button crop = (Button)findViewById(R.id.cropImage);
 //        Button deleteImage = (Button)findViewById(R.id.deleteImage);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 startActivity(new Intent(getApplicationContext(), TakePicture.class));
+            }
+        });
+
+        addLabel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                startActivity(new Intent(getApplicationContext(), editInfo.class));
             }
         });
 
